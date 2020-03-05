@@ -3,21 +3,44 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'Data.dart';
+import 'CRUDModel.dart';
+import 'CreateEntry.dart';
 
 //sachin kumara Liyanage
 //IT17152938
 
-// ignore: must_be_immutable
-class ReviewsPage extends StatelessWidget {
+class ReviewsPage extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() =>_ReviewsPageStatus();
 
+}
 
+class _ReviewsPageStatus extends State<ReviewsPage> {
+
+  void setupstetus() async{
+    Data.allstar=0.0;
+    Data.data=new List();
+    await new CRUDModel().fetchEntrys().then((value){
+      value.forEach((element) {
+        Data.data.add(new CreateEntry(new Entry(element.id, element.star, element.date, element.dis, element.img)));
+      });
+    });
+    setState(() {
+
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    if(Entry.i){
+      Entry.i=false;
+      setupstetus();
+    }
 //    Data.data=new List();
 //    Data.allstar=0.0;
 //    Data.data.add(new Entry(5, 'asasas', 'asdxasxcsxcascxascxscxascacacsac', 'assets/img/a7.png'));
 //    Data.data.add(new Entry(3.5, 'asasas', 'asdxasxcsxcascxascxscxascacacsac', 'assets/img/a7.png'));
+
     int k=Data.data.length;
     double avgStar=Data.allstar/k;
     return Scaffold(

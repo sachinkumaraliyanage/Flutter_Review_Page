@@ -6,6 +6,7 @@ import 'FullBackground.dart';
 import 'Entry.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 import 'package:intl/intl.dart';
+import 'CRUDModel.dart';
 
 class AddPage extends StatefulWidget {
   @override
@@ -158,10 +159,10 @@ class _AddpageState extends State<AddPage> {
                     ),
                     new OutlineButton(
                       padding: EdgeInsets.fromLTRB(20, 10, 20, 10),
-                      onPressed: () {
+                      onPressed: () async {
+                        Entry.i=true;
                         var now = new DateTime.now();
-
-                        Data.data.add(new Entry(rating,new DateFormat("dd MMMM yyyy").format(now),rev.text,avatar));
+                        await CRUDModel().addEntry(new Entry(null,rating,new DateFormat("dd MMMM yyyy").format(now),rev.text,avatar));
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => new ReviewsPage()),
